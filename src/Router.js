@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Page from './pages/Page';
+import AudioRecording from './pages/AudioRecording';
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Page />} />
+        <Route path="/" element={<AudioRecording />} />
       </Routes>
     </BrowserRouter>
   );
