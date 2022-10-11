@@ -1,27 +1,88 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useReactMediaRecorder } from 'react-media-recorder';
 import styled from 'styled-components';
 
 function AudioRecording() {
+  const [second, setSecond] = useState('00');
+  const [minute, setMinute] = useState('00');
+  const [isActive, setIsActive] = useState(false);
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    let intervalId;
+    if (isActive) {
+      intervalId = setInterval(() => {
+        const secondCounter = counter % 60;
+        const minuteCounter = Math.floor(counter / 60);
+        setSecond(secondCounter);
+        setMinute(minuteCounter);
+        setCounter(counter => counter + 1);
+      }, 650);
+    }
+    return () => clearInterval(intervalId);
+  }, [isActive, counter]);
+
+  const stopTimer = () => {
+    setIsActive(false);
+    setCounter(0);
+    setSecond('00');
+    setMinute('00');
+  };
+
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({
+    audio: true,
+    echoCancellation: true,
+  });
+
   return (
     <Container>
       <RecordingBox>
         <RecordingHeaderBox>
-          <StatusMessage>Recording</StatusMessage>
+          <StatusMessage>{status}</StatusMessage>
         </RecordingHeaderBox>
         <RecordingContentBox>
-          <LeftContentBox>video</LeftContentBox>
+          {!isActive ? (
+            <LeftContentBox>
+              <video src={mediaBlobUrl} controls loop />
+            </LeftContentBox>
+          ) : null}
           <RightContentBox>
-            <ClearBoutton>Clear</ClearBoutton>
+            <ClearBoutton onClick={stopTimer}>Clear</ClearBoutton>
             <TimeBox>
-              <span>00</span>
+              <span>{minute}</span>
               <span>:</span>
-              <span>00</span>
+              <span>{second}</span>
             </TimeBox>
             <RecordButtonBox>
               <h3>Press the Start to record</h3>
               <div>
-                <StartButton>Start</StartButton>
-                <StopButton>Stop</StopButton>
+                <StartButton
+                  onClick={() => {
+                    if (!isActive) {
+                      startRecording();
+                    } else {
+                      pauseRecording();
+                    }
+                    setIsActive(!isActive);
+                  }}
+                >
+                  {isActive ? 'Pause' : 'Start'}
+                </StartButton>
+                <StopButton
+                  onClick={() => {
+                    pauseRecording();
+                    stopRecording();
+                    setIsActive(!isActive);
+                  }}
+                >
+                  Stop
+                </StopButton>
               </div>
             </RecordButtonBox>
           </RightContentBox>
@@ -60,11 +121,15 @@ const StatusMessage = styled.h4`
 `;
 const RecordingContentBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 `;
 const LeftContentBox = styled.div`
   height: 38px;
   margin: 20px;
+  /* display: none; */
+  /* &.active {
+    display: inline;
+  } */
 `;
 const RightContentBox = styled.div`
   margin: 20px;
