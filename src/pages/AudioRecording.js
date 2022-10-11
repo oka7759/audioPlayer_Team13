@@ -14,8 +14,16 @@ function AudioRecording() {
       intervalId = setInterval(() => {
         const secondCounter = counter % 60;
         const minuteCounter = Math.floor(counter / 60);
-        setSecond(secondCounter);
-        setMinute(minuteCounter);
+        let computedSecond =
+          String(secondCounter).length === 1
+            ? `0${secondCounter}`
+            : secondCounter;
+        let computedMinute =
+          String(minuteCounter).length === 1
+            ? `0${minuteCounter}`
+            : minuteCounter;
+        setSecond(computedSecond);
+        setMinute(computedMinute);
         setCounter(counter => counter + 1);
       }, 650);
     }
@@ -126,10 +134,6 @@ const RecordingContentBox = styled.div`
 const LeftContentBox = styled.div`
   height: 38px;
   margin: 20px;
-  /* display: none; */
-  /* &.active {
-    display: inline;
-  } */
 `;
 const RightContentBox = styled.div`
   margin: 20px;
