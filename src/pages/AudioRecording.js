@@ -48,6 +48,21 @@ function AudioRecording() {
     echoCancellation: true,
   });
 
+  const startButtonClick = () => {
+    if (!isActive) {
+      startRecording();
+    } else {
+      pauseRecording();
+    }
+    setIsActive(!isActive);
+  };
+
+  const stopButtonClick = () => {
+    pauseRecording();
+    stopRecording();
+    setIsActive(!isActive);
+  };
+
   return (
     <Container>
       <RecordingBox>
@@ -70,27 +85,10 @@ function AudioRecording() {
             <RecordButtonBox>
               <h3>Press the Start to record</h3>
               <div>
-                <StartButton
-                  onClick={() => {
-                    if (!isActive) {
-                      startRecording();
-                    } else {
-                      pauseRecording();
-                    }
-                    setIsActive(!isActive);
-                  }}
-                >
-                  {isActive ? 'Pause' : 'Start'}
+                <StartButton onClick={startButtonClick}>
+                  {isActive ? 'PAUSE' : 'START'}
                 </StartButton>
-                <StopButton
-                  onClick={() => {
-                    pauseRecording();
-                    stopRecording();
-                    setIsActive(!isActive);
-                  }}
-                >
-                  Stop
-                </StopButton>
+                <StopButton onClick={stopButtonClick}>STOP</StopButton>
               </div>
             </RecordButtonBox>
           </RightContentBox>
@@ -105,6 +103,7 @@ export default AudioRecording;
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 100px;
 `;
 const RecordingBox = styled.div`
   border: 1px solid black;
@@ -126,6 +125,7 @@ const StatusMessage = styled.h4`
   text-transform: capitalize;
   font-size: 20px;
   font-weight: 700;
+  letter-spacing: 1px;
 `;
 const RecordingContentBox = styled.div`
   display: flex;
