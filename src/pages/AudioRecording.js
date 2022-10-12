@@ -72,6 +72,8 @@ function AudioRecording() {
     setSelected(e.target.value);
   };
 
+  console.log(mediaBlobUrl);
+
   return (
     <Container>
       <RecordingBox>

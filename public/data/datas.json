@@ -1,0 +1,114 @@
+{
+  "results": [
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Barnabé", "last": "Fogaça" },
+      "email": "barnabe.fogaca@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/5.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/5.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/5.jpg"
+      },
+      "nat": "BR"
+    },
+    {
+      "gender": "female",
+      "name": { "title": "Mrs", "first": "Angelina", "last": "Topić" },
+      "email": "angelina.topic@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/89.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/89.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/89.jpg"
+      },
+      "nat": "RS"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Aiden", "last": "Henderson" },
+      "email": "aiden.henderson@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/80.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/80.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/80.jpg"
+      },
+      "nat": "US"
+    },
+    {
+      "gender": "female",
+      "name": { "title": "Miss", "first": "Marija", "last": "Katanić" },
+      "email": "marija.katanic@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/29.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/29.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/29.jpg"
+      },
+      "nat": "RS"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Iben", "last": "Evenrud" },
+      "email": "iben.evenrud@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/38.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/38.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/38.jpg"
+      },
+      "nat": "NO"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Alexis", "last": "Wilson" },
+      "email": "alexis.wilson@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/6.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/6.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/6.jpg"
+      },
+      "nat": "CA"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Brad", "last": "Perkins" },
+      "email": "brad.perkins@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/72.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/72.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/72.jpg"
+      },
+      "nat": "IE"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Luca", "last": "Wright" },
+      "email": "luca.wright@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/47.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/47.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/47.jpg"
+      },
+      "nat": "NZ"
+    },
+    {
+      "gender": "male",
+      "name": { "title": "Mr", "first": "Boran", "last": "Spaans" },
+      "email": "boran.spaans@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/2.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/2.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/2.jpg"
+      },
+      "nat": "NL"
+    },
+    {
+      "gender": "female",
+      "name": { "title": "Mrs", "first": "Marilyn", "last": "Miles" },
+      "email": "marilyn.miles@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/37.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/37.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/37.jpg"
+      },
+      "nat": "AU"
+    }
+  ]
+}
