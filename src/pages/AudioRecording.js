@@ -7,6 +7,7 @@ function AudioRecording() {
   const [minute, setMinute] = useState('00');
   const [isActive, setIsActive] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [selected, setSelected] = useState(1);
 
   useEffect(() => {
     let intervalId;
@@ -25,7 +26,12 @@ function AudioRecording() {
         setSecond(computedSecond);
         setMinute(computedMinute);
         setCounter(counter => counter + 1);
-      }, 650);
+      }, 1000);
+      if (counter > selected * 60) {
+        pauseRecording();
+        stopRecording();
+        setIsActive(false);
+      }
     }
     return () => clearInterval(intervalId);
   }, [isActive, counter]);
@@ -58,9 +64,12 @@ function AudioRecording() {
   };
 
   const stopButtonClick = () => {
-    pauseRecording();
     stopRecording();
-    setIsActive(!isActive);
+    setIsActive(false);
+  };
+
+  const handleSelect = e => {
+    setSelected(e.target.value);
   };
 
   return (
@@ -82,15 +91,26 @@ function AudioRecording() {
               <span>:</span>
               <span>{second}</span>
             </TimeBox>
-            <RecordButtonBox>
+            <RecordBox>
               <h3>Press the Start to record</h3>
-              <div>
+              <RecordButtonBox>
                 <StartButton onClick={startButtonClick}>
                   {isActive ? 'PAUSE' : 'START'}
                 </StartButton>
                 <StopButton onClick={stopButtonClick}>STOP</StopButton>
-              </div>
-            </RecordButtonBox>
+              </RecordButtonBox>
+              <SelectBox>
+                <select onChange={handleSelect} value={selected}>
+                  <option value="1">1</option>
+                  <option value="3">3</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="30">30</option>
+                  <option value="60">60</option>
+                </select>
+                <span>분 후에 자동으로 녹화가 중지 됩니다.</span>
+              </SelectBox>
+            </RecordBox>
           </RightContentBox>
         </RecordingContentBox>
       </RecordingBox>
@@ -150,7 +170,7 @@ const TimeBox = styled.div`
   font-size: 55px;
   padding: 10px 0;
 `;
-const RecordButtonBox = styled.div`
+const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 0;
@@ -159,6 +179,10 @@ const RecordButtonBox = styled.div`
     justify-content: center;
     padding-bottom: 10px;
   }
+`;
+const RecordButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 const StartButton = styled.button`
   padding: 12px 30px;
@@ -181,4 +205,18 @@ const StopButton = styled.button`
   font-weight: bold;
   background-color: #df3636;
   color: white;
+`;
+
+const SelectBox = styled.div`
+  padding-top: 20px;
+  text-align: center;
+  select {
+    padding: 0 5px;
+    option {
+    }
+  }
+  span {
+    padding-left: 10px;
+    font-size: 15px;
+  }
 `;
