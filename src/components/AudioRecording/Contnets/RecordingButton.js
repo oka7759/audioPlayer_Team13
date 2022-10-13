@@ -7,8 +7,11 @@ function RecordingButton(props) {
     pauseRecording,
     isActive,
     setIsActive,
+    firebasGet,
+    mediaBlobUrl,
   } = props;
 
+  const rand_0_10 = Math.floor(Math.random() * 11);
   const startButtonClick = () => {
     if (!isActive) {
       startRecording();
@@ -21,6 +24,7 @@ function RecordingButton(props) {
   const stopButtonClick = () => {
     stopRecording();
     setIsActive(false);
+    firebasGet(mediaBlobUrl, rand_0_10);
   };
 
   return (
