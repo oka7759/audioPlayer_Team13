@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useReactMediaRecorder } from 'react-media-recorder';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 function AudioRecording() {
   const [second, setSecond] = useState('00');
   const [minute, setMinute] = useState('00');
   const [isActive, setIsActive] = useState(false);
   const [counter, setCounter] = useState(0);
-  const [selected, setSelected] = useState(1);
+  const [endTime, setEndTime] = useState(1);
+
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({
+    audio: true,
+    echoCancellation: true,
+  });
 
   useEffect(() => {
     let intervalId;
@@ -27,7 +38,7 @@ function AudioRecording() {
         setMinute(computedMinute);
         setCounter(counter => counter + 1);
       }, 1000);
-      if (counter > selected * 60) {
+      if (counter > endTime * 60) {
         pauseRecording();
         stopRecording();
         setIsActive(false);
@@ -36,23 +47,12 @@ function AudioRecording() {
     return () => clearInterval(intervalId);
   }, [isActive, counter]);
 
-  const stopTimer = () => {
+  const clearButtonClick = () => {
     setIsActive(false);
     setCounter(0);
     setSecond('00');
     setMinute('00');
   };
-
-  const {
-    status,
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    mediaBlobUrl,
-  } = useReactMediaRecorder({
-    audio: true,
-    echoCancellation: true,
-  });
 
   const startButtonClick = () => {
     if (!isActive) {
@@ -69,16 +69,18 @@ function AudioRecording() {
   };
 
   const handleSelect = e => {
-    setSelected(e.target.value);
+    setEndTime(e.target.value);
   };
-
-  console.log(mediaBlobUrl);
 
   return (
     <Container>
       <RecordingBox>
         <RecordingHeaderBox>
-          <StatusMessage>{status}</StatusMessage>
+          {status === 'recording' ? (
+            <RecordingMessage>Recording...</RecordingMessage>
+          ) : (
+            <StatusMessage>Voice Recoder</StatusMessage>
+          )}
         </RecordingHeaderBox>
         <RecordingContentBox>
           {!isActive ? (
@@ -87,7 +89,7 @@ function AudioRecording() {
             </LeftContentBox>
           ) : null}
           <RightContentBox>
-            <ClearBoutton onClick={stopTimer}>Clear</ClearBoutton>
+            <ClearBoutton onClick={clearButtonClick}>Clear</ClearBoutton>
             <TimeBox>
               <span>{minute}</span>
               <span>:</span>
@@ -102,7 +104,7 @@ function AudioRecording() {
                 <StopButton onClick={stopButtonClick}>STOP</StopButton>
               </RecordButtonBox>
               <SelectBox>
-                <select onChange={handleSelect} value={selected}>
+                <select onChange={handleSelect} value={endTime}>
                   <option value="1">1</option>
                   <option value="3">3</option>
                   <option value="5">5</option>
@@ -125,46 +127,66 @@ export default AudioRecording;
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin: 10px 0;
 `;
 const RecordingBox = styled.div`
-  border: 1px solid black;
+  border: 1px solid #929292;
   background-color: black;
   width: 700px;
-  height: 350px;
 `;
 const RecordingHeaderBox = styled.div`
-  border: 1px solid rgb(5, 167, 202);
-  height: 70px;
-  background-color: rgb(5, 167, 202);
+  height: 50px;
+  background-color: #f0f2f5;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
 const StatusMessage = styled.h4`
-  margin-left: 10px;
   text-transform: capitalize;
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 1px;
+  color: #2e2e2e;
+`;
+const textFade = keyframes`
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }`;
+const RecordingMessage = styled.h4`
+  text-transform: capitalize;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #2e2e2e;
+  animation: ${textFade} 2s 1s infinite;
 `;
 const RecordingContentBox = styled.div`
   display: flex;
   justify-content: center;
+  margin: 20px;
 `;
 const LeftContentBox = styled.div`
   height: 38px;
-  margin: 20px;
+  padding-right: 15px;
 `;
 const RightContentBox = styled.div`
-  margin: 20px;
   color: white;
+  padding-left: 15px;
 `;
 const ClearBoutton = styled.button`
-  background-color: black;
+  background-color: #2d2d2d;
   border-radius: 8px;
-  color: white;
+  color: #f0f2f5;
+  padding: 3px 6px;
+  letter-spacing: 1px;
+  font-size: 15px;
+  cursor: pointer;
 `;
 const TimeBox = styled.div`
   display: flex;
@@ -180,11 +202,14 @@ const RecordBox = styled.div`
     display: flex;
     justify-content: center;
     padding-bottom: 10px;
+    font-size: 15px;
+    color: #f0f2f5;
   }
 `;
 const RecordButtonBox = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 10px;
 `;
 const StartButton = styled.button`
   padding: 12px 30px;
@@ -208,14 +233,16 @@ const StopButton = styled.button`
   background-color: #df3636;
   color: white;
 `;
-
 const SelectBox = styled.div`
-  padding-top: 20px;
+  padding-top: 15px;
   text-align: center;
+  border-top: 0.5px solid #929292;
   select {
     padding: 0 5px;
-    option {
-    }
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
   }
   span {
     padding-left: 10px;
