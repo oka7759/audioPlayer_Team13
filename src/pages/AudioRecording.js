@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import RecordingHeader from '../components/AudioRecording/RecordingHeader';
 import RecordingContent from '../components/AudioRecording/RecordingContent';
 import { firestore } from '../firebase/firebase';
+import { useState } from 'react';
 function AudioRecording() {
   const {
     status,
@@ -15,10 +16,14 @@ function AudioRecording() {
     echoCancellation: true,
   });
 
+  const [number, setNumber] = useState(1);
+  console.log(number, 'asdsadsadsa');
+
   const firebasGet = (url, num) => {
     const bucket = firestore.collection('bucket');
-    mediaBlobUrl && bucket.doc('blob').set({ blob: url });
+    mediaBlobUrl && bucket.doc('blob' + (number - 1)).set({ blob: url });
     mediaBlobUrl && alert('음성이 저장되었습니다');
+    setNumber(number + 1);
   };
 
   return (
@@ -30,6 +35,7 @@ function AudioRecording() {
           stopRecording={stopRecording}
           pauseRecording={pauseRecording}
           mediaBlobUrl={mediaBlobUrl}
+          number={number}
           firebasGet={firebasGet}
         />
       </RecordingBox>

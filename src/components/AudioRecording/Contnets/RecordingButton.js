@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 function RecordingButton(props) {
@@ -9,9 +10,9 @@ function RecordingButton(props) {
     setIsActive,
     firebasGet,
     mediaBlobUrl,
+    number,
   } = props;
 
-  const rand_0_10 = Math.floor(Math.random() * 11);
   const startButtonClick = () => {
     if (!isActive) {
       startRecording();
@@ -24,7 +25,10 @@ function RecordingButton(props) {
   const stopButtonClick = () => {
     stopRecording();
     setIsActive(false);
-    firebasGet(mediaBlobUrl, rand_0_10);
+
+    firebasGet(mediaBlobUrl, number);
+
+    console.log('넘버', number);
   };
 
   return (

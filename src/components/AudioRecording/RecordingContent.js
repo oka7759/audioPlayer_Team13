@@ -12,6 +12,7 @@ function RecordingContent(props) {
     pauseRecording,
     mediaBlobUrl,
     firebasGet,
+    number,
   } = props;
 
   const [second, setSecond] = useState('00');
@@ -66,6 +67,7 @@ function RecordingContent(props) {
           <h3>Press the Start to record</h3>
           <RecordingButton
             firebasGet={firebasGet}
+            number={number}
             mediaBlobUrl={mediaBlobUrl}
             startRecording={startRecording}
             stopRecording={stopRecording}
