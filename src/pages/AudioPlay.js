@@ -19,19 +19,15 @@ const AudioPlay = () => {
         setBlobUrl(doc.data().blob);
       });
   }, []);
-
-  console.log(blobUrl);
-
   return (
     <Container>
       <PlayerBox>
-        <WaveForm />
+        <PlayList setBlobUrl={setBlobUrl} />
         <AudioPlayer
           autoPlay
           src={blobUrl}
-          onPlay={e => console.log('onPlay', blobUrl)}
+          onPlay={e => console.log('onPlay', e)}
         />
-        <PlayList setBlobUrl={setBlobUrl} />
       </PlayerBox>
     </Container>
   );
@@ -47,10 +43,4 @@ const Container = styled.div`
 
 const PlayerBox = styled.div`
   width: 100%;
-`;
-
-const WaveForm = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: red;
 `;

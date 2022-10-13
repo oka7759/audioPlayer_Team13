@@ -4,12 +4,17 @@ import { Divider, List, Skeleton, Avatar } from 'antd';
 import { AudioOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { firestore } from '../../firebase/firebase';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+
+const storage = getStorage();
+
+const starsRef = ref(storage, '221014060802_64.wav');
 
 const PlayList = ({ setBlobUrl }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const result = [];
-
+  const [newurl, setNewurl] = useState('');
   const getFirebase = () => {
     const bucket = firestore.collection('bucket');
 
@@ -39,8 +44,14 @@ const PlayList = ({ setBlobUrl }) => {
     setBlobUrl(url);
   };
 
-  const downloadFile = url => {
-    fetch(url, { method: 'GET' })
+  const downloadFile = () => {
+    getDownloadURL(starsRef).then(url => {
+      // Insert url into an <img> tag to "download"
+
+      setNewurl(url);
+    });
+
+    fetch(newurl, { method: 'GET' })
       .then(res => {
         return res.blob();
       })
@@ -48,7 +59,7 @@ const PlayList = ({ setBlobUrl }) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = '노래';
+        a.download = 'csv_feed';
         document.body.appendChild(a);
         a.click();
         setTimeout(_ => {
@@ -60,6 +71,7 @@ const PlayList = ({ setBlobUrl }) => {
         console.error('err: ', err);
       });
   };
+
   return (
     <div
       id="scrollableDiv"
@@ -73,7 +85,7 @@ const PlayList = ({ setBlobUrl }) => {
       <InfiniteScroll
         dataLength={data.length}
         next={loadMoreData}
-        hasMore={data.length < 0}
+        hasMore={data.length < 1}
         loader={
           <Skeleton
             avatar
@@ -84,7 +96,7 @@ const PlayList = ({ setBlobUrl }) => {
           />
         }
         endMessage={
-          <Divider plain>총 {data.length} 개의 파일이 있습니다. 🤐</Divider>
+          <Divider plain> 총 {data.length} 개의 파일이 있습니다. 🤐</Divider>
         }
         scrollableTarget="scrollableDiv"
       >
@@ -102,7 +114,7 @@ const PlayList = ({ setBlobUrl }) => {
                     size="small"
                   />
                 }
-                title={'음성 ' + (idx + 1)}
+                title={item.name}
                 onClick={() => {
                   changeUrl(item.blob);
                 }}
