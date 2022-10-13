@@ -6,7 +6,7 @@
 
 > Audio Recording Page
 
-&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195595752-b81af842-3f3a-4429-8ac5-b6330eea79d2.gif"  width="450" height="320"/>
+&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195640790-b6aa5686-ad83-47db-83d7-2c2236683d32.gif"  width="450" height="320"/>
 <br/>
 <br/>
 
