@@ -168,6 +168,30 @@
     Download
   </Button>
   ```
+  ![다운로드2](https://user-images.githubusercontent.com/100933263/195643901-cb27dc08-87e2-47e8-b975-bc0190c7ad5e.png)
+  ```js
+  const downloadFile = url => {
+    fetch(url, { method: 'GET' })
+      .then(res => {
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = '노래';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(_ => {
+          window.URL.revokeObjectURL(url);
+        }, 60000);
+        a.remove();
+      })
+      .catch(err => {
+        console.error('err: ', err);
+      });
+  };
+  ```
   <br/>
   <br/>
   
