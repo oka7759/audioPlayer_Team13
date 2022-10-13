@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-function RecordingContent(props) {
-  const { setIsActive, setCounter, setSecond, setMinute } = props;
-
+function RecordingContent({ setIsActive, setCounter, setSecond, setMinute }) {
   const clearButtonClick = () => {
     setIsActive(false);
     setCounter(0);

@@ -17,12 +17,11 @@ function AudioRecording() {
   });
 
   const [number, setNumber] = useState(1);
-  console.log(number, 'asdsadsadsa');
 
   const firebasGet = (url, num) => {
     const bucket = firestore.collection('bucket');
-    mediaBlobUrl && bucket.doc('blob' + (number - 1)).set({ blob: url });
-    mediaBlobUrl && alert('음성이 저장되었습니다');
+    mediaBlobUrl && bucket.doc('blob' + (num - 1)).set({ blob: url });
+    alert('음성이 저장되었습니다');
     setNumber(number + 1);
   };
 
@@ -31,6 +30,7 @@ function AudioRecording() {
       <RecordingBox>
         <RecordingHeader status={status} />
         <RecordingContent
+          status={status}
           startRecording={startRecording}
           stopRecording={stopRecording}
           pauseRecording={pauseRecording}

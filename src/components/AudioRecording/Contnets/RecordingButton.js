@@ -1,18 +1,19 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
-function RecordingButton(props) {
-  const {
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    isActive,
-    setIsActive,
-    firebasGet,
-    mediaBlobUrl,
-    number,
-  } = props;
-
+function RecordingButton({
+  startRecording,
+  stopRecording,
+  pauseRecording,
+  isActive,
+  setIsActive,
+  firebasGet,
+  mediaBlobUrl,
+  number,
+  status,
+  setCounter,
+  setSecond,
+  setMinute,
+}) {
   const startButtonClick = () => {
     if (!isActive) {
       startRecording();
@@ -25,10 +26,10 @@ function RecordingButton(props) {
   const stopButtonClick = () => {
     stopRecording();
     setIsActive(false);
-
-    firebasGet(mediaBlobUrl, number);
-
-    console.log('넘버', number);
+    status === 'stopped' && firebasGet(mediaBlobUrl, number);
+    setCounter(0);
+    setSecond('00');
+    setMinute('00');
   };
 
   return (
@@ -36,7 +37,13 @@ function RecordingButton(props) {
       <StartButton onClick={startButtonClick}>
         {isActive ? 'PAUSE' : 'START'}
       </StartButton>
-      <StopButton onClick={stopButtonClick}>STOP</StopButton>
+      {status === 'stopped' ? (
+        <StopButton true={true} onClick={stopButtonClick}>
+          SAVE
+        </StopButton>
+      ) : (
+        <StopButton onClick={stopButtonClick}>STOP</StopButton>
+      )}
     </RecordButtonBox>
   );
 }
@@ -67,6 +74,6 @@ const StopButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   font-weight: bold;
-  background-color: #df3636;
+  background-color: ${props => (props.true ? 'skyblue' : '#df3636')};
   color: white;
 `;

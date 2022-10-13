@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-function RecordingTime(props) {
-  const { second, minute } = props;
-
+function RecordingTime({ second, minute }) {
   return (
     <TimeBox>
       <span>{minute}</span>
