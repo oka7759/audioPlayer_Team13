@@ -87,15 +87,6 @@ const RightContentBox = styled.div`
   color: white;
   padding-left: 15px;
 `;
-const ClearBoutton = styled.button`
-  background-color: #2d2d2d;
-  border-radius: 8px;
-  color: #f0f2f5;
-  padding: 3px 6px;
-  letter-spacing: 1px;
-  font-size: 15px;
-  cursor: pointer;
-`;
 const RecordBox = styled.div`
   display: flex;
   flex-direction: column;
