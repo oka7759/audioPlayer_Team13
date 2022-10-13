@@ -7,8 +7,6 @@ function RecordingButton({
   isActive,
   setIsActive,
   firebasGet,
-  mediaBlobUrl,
-  number,
   status,
   setCounter,
   setSecond,
@@ -26,7 +24,7 @@ function RecordingButton({
   const stopButtonClick = () => {
     stopRecording();
     setIsActive(false);
-    status === 'stopped' && firebasGet(mediaBlobUrl, number);
+    status === 'stopped' && firebasGet();
     setCounter(0);
     setSecond('00');
     setMinute('00');

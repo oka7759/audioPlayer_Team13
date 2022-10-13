@@ -11,7 +11,6 @@ function RecordingContent({
   pauseRecording,
   mediaBlobUrl,
   firebasGet,
-  number,
   status,
 }) {
   const [second, setSecond] = useState('00');
@@ -70,8 +69,6 @@ function RecordingContent({
             setMinute={setMinute}
             status={status}
             firebasGet={firebasGet}
-            number={number}
-            mediaBlobUrl={mediaBlobUrl}
             startRecording={startRecording}
             stopRecording={stopRecording}
             pauseRecording={pauseRecording}

@@ -4,7 +4,11 @@ import RecordingHeader from '../components/AudioRecording/RecordingHeader';
 import RecordingContent from '../components/AudioRecording/RecordingContent';
 import { firestore } from '../firebase/firebase';
 import { useState } from 'react';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import moment from 'moment/moment';
+
 function AudioRecording() {
+  const [blobFile, setBlobFile] = useState(null);
   const {
     status,
     startRecording,
@@ -14,15 +18,30 @@ function AudioRecording() {
   } = useReactMediaRecorder({
     audio: true,
     echoCancellation: true,
+    onStop: (_, blob) => {
+      setBlobFile(blob);
+    },
   });
+  const nowTime = moment().format('YYMMDDhhmmss');
 
-  const [number, setNumber] = useState(1);
+  const firebasGet = () => {
+    const fileName = nowTime + '_' + Math.floor(Math.random() * 100) + '.wav';
+    const storage = getStorage();
+    const storageRef = ref(storage, fileName);
+    uploadBytes(storageRef, blobFile).then(snapshot => {
+      console.log(snapshot, blobFile);
+    });
 
-  const firebasGet = (url, num) => {
     const bucket = firestore.collection('bucket');
-    mediaBlobUrl && bucket.doc('blob' + (num - 1)).set({ blob: url });
-    alert('음성이 저장되었습니다');
-    setNumber(number + 1);
+    mediaBlobUrl &&
+      bucket.doc(fileName).set({
+        name: fileName,
+        blob:
+          'https://firebasestorage.googleapis.com/v0/b/cdn-audio.appspot.com/o/' +
+          fileName +
+          '?alt=media',
+      });
+    alert('음성이 ' + fileName + '이름으로 저장되었습니다');
   };
 
   return (
@@ -34,8 +53,6 @@ function AudioRecording() {
           startRecording={startRecording}
           stopRecording={stopRecording}
           pauseRecording={pauseRecording}
-          mediaBlobUrl={mediaBlobUrl}
-          number={number}
           firebasGet={firebasGet}
         />
       </RecordingBox>
