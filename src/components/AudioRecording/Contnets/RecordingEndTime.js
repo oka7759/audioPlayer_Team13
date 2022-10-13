@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-function RecordingEndTime(props) {
-  const { endTime, setEndTime } = props;
-
+function RecordingEndTime({ endTime, setEndTime }) {
   const handleSelect = e => {
     setEndTime(e.target.value);
   };

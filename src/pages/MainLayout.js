@@ -26,6 +26,7 @@ const MainLayout = () => {
   const onClick = e => {
     setPage(e.key);
   };
+
   return (
     <Layout className="layout">
       <Header>
