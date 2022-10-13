@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import AudioPlayer from 'react-h5-audio-player';
 import PlayList from '../components/AudioPlay/PlayList';
 import 'react-h5-audio-player/lib/styles.css';
 import 'antd/dist/antd.css';
+import { firestore } from '../firebase/firebase';
 
 const AudioPlay = () => {
   const [blobUrl, setBlobUrl] = useState('');
+
+  useEffect(() => {
+    const bucket = firestore.collection('bucket');
+
+    bucket
+      .doc('blob')
+      .get()
+      .then(doc => {
+        setBlobUrl(doc.data().blob);
+      });
+  }, []);
+
+  console.log(blobUrl);
 
   return (
     <Container>

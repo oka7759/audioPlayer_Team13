@@ -6,7 +6,13 @@ import RecordingButton from './Contnets/RecordingButton';
 import RecordingEndTime from './Contnets/RecordingEndTime';
 
 function RecordingContent(props) {
-  const { startRecording, stopRecording, pauseRecording, mediaBlobUrl } = props;
+  const {
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    mediaBlobUrl,
+    firebasGet,
+  } = props;
 
   const [second, setSecond] = useState('00');
   const [minute, setMinute] = useState('00');
@@ -59,6 +65,8 @@ function RecordingContent(props) {
         <RecordBox>
           <h3>Press the Start to record</h3>
           <RecordingButton
+            firebasGet={firebasGet}
+            mediaBlobUrl={mediaBlobUrl}
             startRecording={startRecording}
             stopRecording={stopRecording}
             pauseRecording={pauseRecording}

@@ -16,8 +16,8 @@ function getItem(label, key, icon, children, type) {
   };
 }
 const items = [
-  getItem('센서 리스트', '1', <AudioOutlined />),
-  getItem('데이터 그래프', '2', <PlayCircleOutlined />),
+  getItem('음성녹음', '1', <AudioOutlined />),
+  getItem('재생', '2', <PlayCircleOutlined />),
 ];
 
 const MainLayout = () => {

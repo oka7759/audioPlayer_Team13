@@ -2,7 +2,7 @@ import { useReactMediaRecorder } from 'react-media-recorder';
 import styled from 'styled-components';
 import RecordingHeader from '../components/AudioRecording/RecordingHeader';
 import RecordingContent from '../components/AudioRecording/RecordingContent';
-
+import { firestore } from '../firebase/firebase';
 function AudioRecording() {
   const {
     status,
@@ -15,6 +15,12 @@ function AudioRecording() {
     echoCancellation: true,
   });
 
+  const firebasGet = (url, num) => {
+    const bucket = firestore.collection('bucket');
+    mediaBlobUrl && bucket.doc('blob').set({ blob: url });
+    mediaBlobUrl && alert('음성이 저장되었습니다');
+  };
+
   return (
     <Container>
       <RecordingBox>
@@ -24,6 +30,7 @@ function AudioRecording() {
           stopRecording={stopRecording}
           pauseRecording={pauseRecording}
           mediaBlobUrl={mediaBlobUrl}
+          firebasGet={firebasGet}
         />
       </RecordingBox>
     </Container>
