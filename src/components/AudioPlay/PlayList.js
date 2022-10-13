@@ -1,14 +1,8 @@
-import { Divider, List, Skeleton, Avatar } from 'antd';
-import {
-  PlayCircleOutlined,
-  AudioOutlined,
-  DownloadOutlined,
-} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Divider, List, Skeleton, Avatar } from 'antd';
+import { AudioOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-
-import styled from 'styled-components';
 
 const PlayList = ({ setBlobUrl }) => {
   const [loading, setLoading] = useState(false);
@@ -129,10 +123,3 @@ const PlayList = ({ setBlobUrl }) => {
 };
 
 export default PlayList;
-
-const Title = styled.h4`
-  font-size: 19px;
-  letter-spacing: 2px;
-  line-height: 37px;
-  font-weight: 400;
-`;
