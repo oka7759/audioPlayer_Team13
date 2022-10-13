@@ -1,70 +1,188 @@
-# Getting Started with Create React App
+<img src="https://img.shields.io/badge/Javascript-ffc700?style=flat-square&logo=Javascript&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> <img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Audio Player Project
 
-## Available Scripts
+## 🔍 미리보기
 
-In the project directory, you can run:
+> Audio Recording Page
 
-### `npm start`
+&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195595752-b81af842-3f3a-4429-8ac5-b6330eea79d2.gif"  width="450" height="320"/>
+<br/>
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> Audio Play Page
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195635725-132ac32f-c24b-48c9-830b-1b652b82753c.gif"  width="450" height="500"/>
+<br/>
+<br/>
 
-### `npm test`
+## 🚩 프로젝트 개요
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 진행기간 : 10/11~ 10/14
+- 과제주관 : (주)하이
+- 참여명단 : 정억화, 손소희
+- DEMO : [DEMO](https://lustrous-cheesecake-74b27e.netlify.app/)
 
-### `npm run build`
+<br/>
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠 구현사항과 해결방법
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> MISSION 1
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 오디오 녹음 화면 구현
 
-### `npm run eject`
+#### 1-1 &nbsp; 오디오 녹음 기능 구현<br/>
+  
+#### 1-2 &nbsp; 녹음 중 UI 표시<br/>
+![녹음중 UI](https://user-images.githubusercontent.com/100933263/195629771-1c5d094d-cd72-427c-84ed-77e05ea04e97.gif)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- #### 녹음 중 UI 상태 불러오기 <br/>
+  녹음 중인 상태를 useReactMediaRecorde에서 가져와서 AudioRecording 페이지의 header에 보여지도록 구현하였습니다.<br/>
+  ```js
+  //useReactMediaRecorde에서 status 가져오기
+  const {
+    status,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    mediaBlobUrl,
+  } = useReactMediaRecorder({
+    audio: true,
+    echoCancellation: true,
+  });
+  
+  //status가 recording이면 Recording... text 보여주기
+  {status === 'recording' ? (
+  <RecordingMessage>Recording...</RecordingMessage>
+  ) : (
+  <StatusMessage>Voice Recoder</StatusMessage>
+  )}
+  ```
+- #### 녹음 중 (Recording...) UI 에 animation 효과주기<br/>
+  녹음 중 일 경우, styled-component에서 animation fade 효과를 주어 구현하였습니다.<br/>
+  ```js
+  const textFade = keyframes`
+    0% {
+      opacity: 1;
+    }
+    50% {
+     opacity: 0;
+   }
+    100% {
+      opacity: 1;
+    }`;
+  const RecordingMessage = styled.h4`
+    text-transform: capitalize;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #2e2e2e;
+    animation: ${textFade} 2s 1s infinite;
+  `;
+  ```
+  <br/>
+#### 1-3 &nbsp; 녹음 중에는 녹음이 되고 있는 시간 표기<br/>
+![녹음 시간](https://user-images.githubusercontent.com/100933263/195632333-95a44f2b-4285-4020-bd8b-b2abcd9ed9c5.gif)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  &nbsp; &nbsp; setInterval 함수를 사용하여 일정한 시간 간격으로 작업을 수행하도록함.<br/>
+  ```js
+  //second, minute가 1~9일 경우 앞에 0이 붙어서 구현 되도록 수정
+  let computedSecond =
+    String(secondCounter).length === 1
+      ? `0${secondCounter}`
+      : secondCounter;
+  let computedMinute =
+    String(minuteCounter).length === 1
+      ? `0${minuteCounter}`
+      : minuteCounter;
+  ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  <br/>
+  
+#### 1-4 &nbsp; 녹음 가능 시간 control<br/>
+![녹음 최대 시간](https://user-images.githubusercontent.com/100933263/195632767-1baf45a4-b18b-4386-94e3-fde21afe7cb6.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  &nbsp; &nbsp; 최대 녹음 가능 시간을 control 하도록 유저가 선택할 수 있는 select 태그를 사용하여 구현하였습니다.<br/>
+  &nbsp; &nbsp; onChange 이벤트로 endTime state를 변경하여 유저가 선택한 시간을 가져와서 해당 시간이되면 녹화가 멈추도록 구현하였습니다.<br/>
+  ```js
+  //최대 녹화시간을 변경할 수 있는 endTime state
+  const [endTime, setEndTime] = useState(1);
+  
+  //select tag에서의 value 값에 따라 변경됨.
+  const handleSelect = e => {
+    setEndTime(e.target.value);
+  };
+    
+  //endTime이 되면 녹화가 멈추는 조건.
+   if (counter > endTime * 60) {
+    pauseRecording();
+    stopRecording();
+    setIsActive(false);
+   }
+  ```
+  <br/>
+  <br/>
+  
+> MISSION 2
 
-## Learn More
+### 음성 재생 화면 구현
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### 2-1 &nbsp; 오디오 재생 기능 구현<br/>
+![오디오재생기능](https://user-images.githubusercontent.com/100933263/195634034-735061a1-dfb7-46e2-87d1-662970b290dc.gif)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  &nbsp; &nbsp; **firestore** 에서 URL을 가져와 보여질 수 있도록 구현 하였습니다. <br/>
+  ```js
+  //blobUrl state에 firestore에서 가져온 url 담기.
+  const [blobUrl, setBlobUrl] = useState('');
+  
+  useEffect(() => {
+    const bucket = firestore.collection('bucket');
+    bucket
+      .doc('blob')
+      .get()
+      .then(doc => {
+        setBlobUrl(doc.data().blob);
+      });
+  }, []);
+  
+  //autoPlay 속성을 사용하여 실행될 준비가 끝나는 대로 자동으로 실행시킴.
+  <AudioPlayer autoPlay src={blobUrl} onPlay />
+  ```
 
-### Code Splitting
+#### 2-2 &nbsp; 오디오가 재생된 시간을 표시<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 2-3 &nbsp; 오디오 파일을 다운로드 가능<br/>
+![다운로드](https://user-images.githubusercontent.com/100933263/195634573-1f644070-042d-4744-95d0-eb8631295b5c.png)
 
-### Analyzing the Bundle Size
+  &nbsp; &nbsp; play list에서 해당 파일의 다운로드 버튼 클릭 시 다운로드 가능하도록 구현하였습니다. <br/>
+  ```js
+  <Button
+   type="primary"
+   icon={<DownloadOutlined />}
+   size="small"
+   onClick={() => {
+    downloadFile(item.blob);
+   }}
+  >
+    Download
+  </Button>
+  ```
+  <br/>
+  <br/>
+  
+> MISSION 3 _ 추가 선택 구현사항
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 녹음된 음성 리스트 화면 구현
 
-### Making a Progressive Web App
+#### 3-1 &nbsp; 오디오 녹음 완료 후 firebase firestorage를 이용하여 음성 파일을 저장하기<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+#### 3-2 &nbsp; 저장된 오디오 파일 불러오기<br/>
 
-### Advanced Configuration
+#### 3-3 &nbsp; 각 오디오 파일 별로 음성 재생 화면의 재생 기능 삽입<br/>
+<br/>
+<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## ⚙ 프로젝트 관리
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+##### 프로젝트 관리 및 설계와 관련된 사항 [내용보기!](https://www.notion.so/wecode/13-81a1c15f26404a789850d53fb87acfc3)
