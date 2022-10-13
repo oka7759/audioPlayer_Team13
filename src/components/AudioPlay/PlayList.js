@@ -7,14 +7,12 @@ import { firestore } from '../../firebase/firebase';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 const storage = getStorage();
-
-const starsRef = ref(storage, '221014060802_64.wav');
-
 const PlayList = ({ setBlobUrl }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const result = [];
   const [newurl, setNewurl] = useState('');
+
   const getFirebase = () => {
     const bucket = firestore.collection('bucket');
 
@@ -44,32 +42,29 @@ const PlayList = ({ setBlobUrl }) => {
     setBlobUrl(url);
   };
 
-  const downloadFile = () => {
+  const downloadFile = name => {
+    const starsRef = ref(storage, name);
     getDownloadURL(starsRef).then(url => {
-      // Insert url into an <img> tag to "download"
-
-      setNewurl(url);
+      fetch(url, { method: 'GET' })
+        .then(res => {
+          return res.blob();
+        })
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(_ => {
+            window.URL.revokeObjectURL(url);
+          }, 60000);
+          a.remove();
+        })
+        .catch(err => {
+          console.error('err: ', err);
+        });
     });
-
-    fetch(newurl, { method: 'GET' })
-      .then(res => {
-        return res.blob();
-      })
-      .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'csv_feed';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(_ => {
-          window.URL.revokeObjectURL(url);
-        }, 60000);
-        a.remove();
-      })
-      .catch(err => {
-        console.error('err: ', err);
-      });
   };
 
   return (
@@ -126,7 +121,7 @@ const PlayList = ({ setBlobUrl }) => {
                   icon={<DownloadOutlined />}
                   size="small"
                   onClick={() => {
-                    downloadFile(item.blob);
+                    downloadFile(item.name);
                   }}
                 >
                   Download
