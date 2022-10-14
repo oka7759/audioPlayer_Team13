@@ -21,7 +21,7 @@
 - 진행기간 : 10/11~ 10/14
 - 과제주관 : (주)하이
 - 참여명단 : 정억화, 손소희
-- DEMO : [DEMO](https://lustrous-cheesecake-74b27e.netlify.app/)
+- 배포 : [배포 바로가기](https://audioplayer-team13.netlify.app/)
 
 <br/>
 <br/>
