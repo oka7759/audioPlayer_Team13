@@ -200,10 +200,81 @@
 ### 녹음된 음성 리스트 화면 구현
 
 #### 3-1 &nbsp; 오디오 녹음 완료 후 firebase firestorage를 이용하여 음성 파일을 저장하기<br/>
+```js
+ const firebasGet = () => {
+    const fileName = nowTime + '_' + Math.floor(Math.random() * 100) + '.wav';
+    const storage = getStorage();
+    const storageRef = ref(storage, fileName);
+    uploadBytes(storageRef, blobFile).then(snapshot => {
+      console.log(snapshot, blobFile);
+    });
+
+    const bucket = firestore.collection('bucket');
+    mediaBlobUrl &&
+      bucket.doc(fileName).set({
+        name: fileName,
+        blob:
+          'https://firebasestorage.googleapis.com/v0/b/cdn-audio.appspot.com/o/' +
+          fileName +
+          '?alt=media',
+      });
+    alert('음성이 ' + fileName + '이름으로 저장되었습니다');
+  };
+
+
+```
 
 #### 3-2 &nbsp; 저장된 오디오 파일 불러오기<br/>
+```js
+
+  const getFirebase = () => {
+    const bucket = firestore.collection('bucket');
+
+    bucket.get().then(docs => {
+      docs.forEach(doc => {
+        if (doc.exists) {
+          result.push(doc.data());
+          setData(result);
+        }
+      });
+    });
+  };
+
+  const loadMoreData = () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    getFirebase();
+  };
+
+  useEffect(() => {
+    loadMoreData();
+  }, []);
+
+  const changeUrl = url => {
+    setBlobUrl(url);
+  };
+```
 
 #### 3-3 &nbsp; 각 오디오 파일 별로 음성 재생 화면의 재생 기능 삽입<br/>
+```js
+          <List.Item.Meta
+                avatar={
+                  <Avatar
+                    style={{
+                      backgroundColor: 'red',
+                    }}
+                    icon={<AudioOutlined />}
+                    size="small"
+                  />
+                }
+                title={item.name}
+                onClick={() => {
+                  changeUrl(item.blob);
+                }}
+              />
+```
 <br/>
 <br/>
 
