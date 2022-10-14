@@ -19,6 +19,7 @@ const AudioPlay = () => {
         setBlobUrl(doc.data().blob);
       });
   }, []);
+
   return (
     <Container>
       <PlayerBox>

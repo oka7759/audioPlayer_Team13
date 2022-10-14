@@ -11,7 +11,6 @@ const PlayList = ({ setBlobUrl }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const result = [];
-  const [newurl, setNewurl] = useState('');
 
   const getFirebase = () => {
     const bucket = firestore.collection('bucket');
