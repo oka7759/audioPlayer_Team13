@@ -12,7 +12,7 @@
 
 > Audio Play Page
 
-&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195635725-132ac32f-c24b-48c9-830b-1b652b82753c.gif"  width="450" height="500"/>
+&nbsp; &nbsp; &nbsp;<img src="https://user-images.githubusercontent.com/100933263/195753942-3b693b1c-f7be-4aca-9e45-29b7f98d7199.gif"  width="450" height="420"/>
 <br/>
 <br/>
 
